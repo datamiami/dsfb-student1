@@ -8,7 +8,7 @@ output:
     df_print: paged
 ---
 
-#Your turn!
+# Your turn!  
 We went through some exploratory analysis on our own, which will help us answer some questions in the data, and will actually give us more questions! Now pick another dataset from `mlbench` and create a markdown notebook of you exploring the data, following the same 5 steps.
 
 1. Take a glimpse at your data
