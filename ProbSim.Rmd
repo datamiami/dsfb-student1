@@ -5,7 +5,7 @@ output: html_notebook
 
 The idea of random sampling is very useful in statistics and probability.
 The function `sample` will randomly draw samples from whatever object `x` you specify (ie, a list or a column of a dataframe)  
-The argument `replacement = TRUE` means it can draw the same number more than once!
+The argument `replace = TRUE` means it can draw the same number more than once!
 The following code randomly selects 5 numbers between 1 and 10:  
 To run the code, press the 'play' button in the top right corner of the code chunk
 
