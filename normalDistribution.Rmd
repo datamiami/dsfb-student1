@@ -1,0 +1,75 @@
+---
+title: "Density Histogram"
+output: html_notebook
+---
+
+load airquality (preloaded) dataset
+```{r}
+data(airquality)
+```
+take a peek
+```{r}
+head(airquality)
+?airquality #help page
+```
+calculating mean and stdev, saving off as variables
+```{r}
+m<-mean(airquality$Temp)
+std<-sd(airquality$Temp)
+print(paste0("Mean is: ", m))
+print(paste0("StdDev is: ", std))
+```
+  
+Let's create a histogram with base R graphics
+```{r}
+hist(airquality$Temp, breaks=20, freq=F, main="Temperature")
+lines(density(airquality$Temp), col="red", lwd=2, add=TRUE)
+```
+  
+note, `prob` is the argument for `probability = TRUE`
+you can also get a density histogram by setting `frequency = FALSE`
+default is `freq=TRUE`
+  
+It's helpful to know:  R will match partial words when looking for arguments, which is sometimes useful in keeping your code more concise. But be careful, and make sure it's understandable!  
+  
+The line drawn here is the `density` distribution for the data we observed, basically just a smoothing of the peaks on the histogram.  
+
+
+
+
+```{r}
+hist(airquality$Temp, breaks=20, freq=F, main="Temperature") #same
+curve(dnorm(x, mean=m, sd=std), col="darkblue", lwd=2, add=TRUE)
+```
+This code adds a normal distribution ('bell curve') overlay, fit to our data - meaning centered at the mean, and with the standard deviation (spread) matched to our distribution. You can see our data is approximately normal. 
+  
+You can also put both on the same graph if you'd like.  
+```{r}
+hist(airquality$Temp, breaks=20, freq=F, main="Temperature") #same
+curve(dnorm(x, mean=m, sd=std), col="darkblue", lwd=2, add=TRUE)
+lines(density(airquality$Temp), col="red", lwd=2, add=TRUE)
+```
+
+
+### GGplot2  
+If you're curious about the ggplot version, it's more verbose as you can see below.  
+But more arguments = more flexible = more chances to make mistakes  
+You don't **need** to have the `fill gradient`, but it's an example of an
+extra feature in ggplot you can't do in base graphics
+```{r}
+library(ggplot2)
+
+g<-ggplot(airquality, aes(x=Temp))
+g<-g + geom_histogram(aes(y=..density.., fill=..count..), 
+                 binwidth = 2, color="black")
+g<-g + scale_fill_gradient("Count", low="#DCDCDC", high="#7C7C7C")
+g<-g + stat_function(fun=dnorm, color="red", lwd=1.5,
+                args=list(mean=m, sd=std))
+g<-g + geom_density(lwd=1.5, color="darkblue")
+
+g
+```
+
+Read more:
+https://www.r-bloggers.com/normal-distribution-functions/ 
+
